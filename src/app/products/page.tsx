@@ -3,9 +3,9 @@
 import { getProducts } from '@/actions/getProducts';
 import { DeleteProduct } from '@/components/products/deleteProduct';
 import { MediasProduct } from '@/components/products/mediasProduct';
-import { SaveProduct } from '@/components/products/saveProduct';
+import { AddProduct } from '@/components/products/addProduct';
 import { formatCurrency } from '@brazilian-utils/brazilian-utils';
-import { DeleteRounded, EditRounded, Visibility } from '@mui/icons-material';
+import { DeleteRounded, Visibility } from '@mui/icons-material';
 import { Button, IconButton, Stack } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { enqueueSnackbar } from 'notistack';
@@ -59,7 +59,7 @@ export default function Products() {
         justifyContent="flex-start"
         alignItems="flex-start"
       >
-        <SaveProduct
+        <AddProduct
           onCallback={async () =>  loadProducts()}
           component={({ onClick }) => (
             <Button
@@ -134,17 +134,6 @@ export default function Products() {
                         onClick={onClick}
                       >
                         <Visibility color="success" />
-                      </IconButton>
-                    )}
-                  />
-                  <SaveProduct
-                    data={row}
-                    onCallback={async () => loadProducts()}
-                    component={({ onClick }) => (
-                      <IconButton
-                        onClick={onClick}
-                      >
-                        <EditRounded color="primary" />
                       </IconButton>
                     )}
                   />

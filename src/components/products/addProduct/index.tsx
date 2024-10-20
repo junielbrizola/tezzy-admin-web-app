@@ -4,7 +4,6 @@ import { Modal } from './modal';
 
 
 interface IData {
-    id?: string | undefined
     type: any
     ean: string
     color: any
@@ -15,13 +14,13 @@ interface IData {
     medias: string[]
 }
 
-interface ISaveProduct {
+interface IAddProduct {
     component: ({ onClick }: { onClick: any }) => React.ReactNode,
     onCallback: any
     data?: IData
 }
 
-const SaveProduct: React.FC<ISaveProduct> = ({ onCallback, data, component }) => {
+const AddProduct: React.FC<IAddProduct> = ({ onCallback, data, component }) => {
     const [open, setOpen] = React.useState(false);
    
     const handleClickOpen = () => {
@@ -46,4 +45,4 @@ const SaveProduct: React.FC<ISaveProduct> = ({ onCallback, data, component }) =>
     );
 }
 
-export { SaveProduct };
+export { AddProduct };

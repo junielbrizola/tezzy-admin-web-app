@@ -17,7 +17,7 @@ import {
 import { TransitionProps } from '@mui/material/transitions';
 import { Controller, useForm } from 'react-hook-form';
 import { LoadingButton } from '@mui/lab';
-import { saveProduct } from '@/actions/saveProduct';
+import { addProduct } from '@/actions/addProduct';
 import { enqueueSnackbar } from 'notistack';
 import * as React from 'react'
 import { getOptions } from '@/actions/getOptions';
@@ -67,30 +67,23 @@ const Modal: React.FC<IModal> = ({
         watch,
     } = useForm<IData>({
         defaultValues: {
-            type: data?.type || '',
-            ean: data?.ean || '',
-            color: data?.color || '',
-            model: data?.model || '',
-            custom: data?.custom || false,
-            price: data?.price || 0,
-            material: data?.material || "",
-            medias: data?.medias || []
+          
         },
     });
 
     const onSubmit = async (formData: IData) => {
         startTransition(async () => {
             try {
-                const files = formData.medias;
-                const base64Files: any = await Promise.all(Array.from(files).map((file: any) => new Promise((resolve, reject) => {
+                
+                const files = formData.medias || [];
+                const medias: any = await Promise.all(Array.from(files).map((file: any) => new Promise((resolve, reject) => {
                     const reader = new FileReader();
                     reader.readAsDataURL(file);
                     reader.onload = () => resolve(reader.result as string);
                     reader.onerror = (error) => reject(error);
                 })));
-    
-                const { data: response, errors } = await saveProduct(
-                    data?.id || undefined,
+                
+                const { data: response, errors } = await addProduct(
                     formData.type?.name,
                     formData.ean,
                     formData.color?.name,
@@ -98,7 +91,7 @@ const Modal: React.FC<IModal> = ({
                     formData.custom,
                     parseCurrency(formData.price as any),
                     formData.material?.name,
-                    base64Files
+                    medias
                 );
                 if (errors) {
                     if (Array.isArray(errors)) {
@@ -140,8 +133,8 @@ const Modal: React.FC<IModal> = ({
             TransitionComponent={Transition}
             open={true}
             onClose={handleClose}
-            aria-labelledby="save-Product-title"
-            aria-describedby="save-Product-description"
+            aria-labelledby="add-Product-title"
+            aria-describedby="add-Product-description"
             PaperProps={{
                 component: 'form',
                 sx: {
@@ -150,7 +143,7 @@ const Modal: React.FC<IModal> = ({
                 onSubmit: handleSubmit(onSubmit),
             }}
         >
-            <DialogTitle id="save-Product-title">
+            <DialogTitle id="add-Product-title">
                 Produto
             </DialogTitle>
             <DialogContent>

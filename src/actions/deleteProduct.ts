@@ -7,7 +7,7 @@ export const deleteProduct = async (
 ) => {
     try {
         const response = await http.delete(`/products/${id}`)
-        return { data: response?.data?.data }
+        return { data: response?.data }
     } catch (e: any) {
         console.log({ e })
         return { errors: e?.response?.data?.error }

@@ -2,8 +2,7 @@
 "use server";
 import { http } from '@/utils/http';
 
-export const saveProduct = async (
-    id: string | undefined,
+export const addProduct = async (
     type: string,
     ean: string,
     color: string,
@@ -14,7 +13,7 @@ export const saveProduct = async (
     medias: string[]
 ) => {
     try {
-        const response = await http[id ? 'put' : 'post'](id ? `/products/${id}` : `/products`, {
+        const response = await http.post(`/products`, {
             type,
             ean,
             color,

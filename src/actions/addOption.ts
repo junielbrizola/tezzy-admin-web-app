@@ -13,7 +13,7 @@ export const addOption = async (
             type,
             optionRef
         })
-        return { data: response?.data?.data }
+        return { data: response?.data }
     } catch (e: any) {
         console.log({ e })
         return { errors: e?.response?.data?.error }
