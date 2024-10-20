@@ -11,6 +11,8 @@ model Product {
   id       String   @id @default(auto()) @map("_id") @db.ObjectId
   type     String
   ean      String   @unique
+  qtd      Int
+  size     String
   color    String
   model    String
   custom   Boolean
@@ -24,4 +26,9 @@ model Option {
   name      String
   type      String
   optionRef String? @db.ObjectId
+}
+
+model Subscriber {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  email String @unique
 }

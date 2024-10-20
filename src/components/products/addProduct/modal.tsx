@@ -26,7 +26,6 @@ import { formatCurrency, parseCurrency } from '@brazilian-utils/brazilian-utils'
 interface IData {
     id?: string | undefined
     type: any
-    ean: string
     color: any
     model: any
     custom: boolean
@@ -36,7 +35,6 @@ interface IData {
 }
 
 interface IModal {
-    data?: IData
     onCallback: any
     handleClose: any
 }
@@ -51,7 +49,6 @@ const Transition = React.forwardRef(function Transition(
 });
 
 const Modal: React.FC<IModal> = ({
-    data,
     onCallback,
     handleClose
 }) => {
@@ -85,7 +82,6 @@ const Modal: React.FC<IModal> = ({
                 
                 const { data: response, errors } = await addProduct(
                     formData.type?.name,
-                    formData.ean,
                     formData.color?.name,
                     formData.model?.name,
                     formData.custom,
@@ -126,8 +122,6 @@ const Modal: React.FC<IModal> = ({
         loadData()
     }, [])
 
-    if (options.length < 1) return null 
-
     return (
         <Dialog
             TransitionComponent={Transition}
@@ -154,7 +148,7 @@ const Modal: React.FC<IModal> = ({
                         <Controller
                             name="type"
                             control={control}
-                            defaultValue={data?.type || ''}
+                            disabled={options.length < 1}
                             render={({ field }) => (
                                 <Autocomplete
                                     {...field}
@@ -172,27 +166,12 @@ const Modal: React.FC<IModal> = ({
                         />
                     </FormControl>
 
-                    {data?.id && (
-                        <FormControl fullWidth>
-                            <FormLabel htmlFor="ean">EAN</FormLabel>
-                            <TextField
-                                id="ean"
-                                type="text"
-                                placeholder="EAN"
-                                fullWidth
-                                variant="outlined"
-                                {...register('ean')}
-                                disabled
-                            />
-                        </FormControl>
-                    )}
-
                     <FormControl fullWidth>
                         <FormLabel htmlFor="color">Cor</FormLabel>
                         <Controller
                             name="color"
                             control={control}
-                            defaultValue={data?.color || ''}
+                            disabled={options.length < 1}
                             render={({ field }) => (
                                 <Autocomplete
                                     {...field}
@@ -215,7 +194,6 @@ const Modal: React.FC<IModal> = ({
                         <Controller
                             name="model"
                             control={control}
-                            defaultValue={data?.model || ''}
                             disabled={!watch('type')?.id}
                             render={({ field }) => (
                                 <Autocomplete
@@ -239,7 +217,6 @@ const Modal: React.FC<IModal> = ({
                         <Controller
                             name="material"
                             control={control}
-                            defaultValue={data?.material || ''}
                             disabled={!watch('type')?.id}
                             render={({ field }) => (
                                 <Autocomplete
@@ -261,6 +238,7 @@ const Modal: React.FC<IModal> = ({
                     <FormControl fullWidth>
                         <FormLabel htmlFor="price">Preço</FormLabel>
                         <TextField
+                            disabled={options.length < 1}
                             id="price"
                             type="text"
                             placeholder="Preço"
@@ -277,6 +255,7 @@ const Modal: React.FC<IModal> = ({
                         <FormControlLabel
                             control={(
                                 <Controller
+                                    disabled={options.length < 1}
                                     name="custom"
                                     control={control}
                                     render={({ field }) => (
@@ -296,6 +275,7 @@ const Modal: React.FC<IModal> = ({
                     <FormControl fullWidth>
                         <FormLabel htmlFor="medias">Images</FormLabel>
                         <TextField
+                            disabled={options.length < 1}
                             id="medias"
                             type="file"
                             placeholder="Images"
@@ -312,11 +292,12 @@ const Modal: React.FC<IModal> = ({
             </DialogContent>
             <DialogActions>
                 <LoadingButton
+                    disabled={options.length < 1}
                     type="submit"
                     variant="contained"
                     loading={isPending || isSubmitting}
                 >
-                    {!data?.id ? 'Adicionar' : 'Atualizar'}
+                    Adicionar
                 </LoadingButton>
                 <Button
                     color="error"

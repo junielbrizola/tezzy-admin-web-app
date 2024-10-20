@@ -2,12 +2,13 @@
 import * as React from 'react';
 import { Modal } from './modal';
 
-interface IAddProduct {
+interface IDeleteSubscriber {
+    id: string
     component: ({ onClick }: { onClick: any }) => React.ReactNode,
     onCallback: any
 }
 
-const AddProduct: React.FC<IAddProduct> = ({ onCallback, component }) => {
+const DeleteSubscriber: React.FC<IDeleteSubscriber> = ({ onCallback, component, id }) => {
     const [open, setOpen] = React.useState(false);
    
     const handleClickOpen = () => {
@@ -23,6 +24,7 @@ const AddProduct: React.FC<IAddProduct> = ({ onCallback, component }) => {
             {component({ onClick: handleClickOpen })}
             {open && (
                 <Modal
+                    id={id}
                     onCallback={onCallback}
                     handleClose={handleClose}
                 />    
@@ -31,4 +33,4 @@ const AddProduct: React.FC<IAddProduct> = ({ onCallback, component }) => {
     );
 }
 
-export { AddProduct };
+export { DeleteSubscriber };

@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// /pages/api/products/route.ts
 import { PrismaClient } from '@prisma/client'
 import { NextResponse } from 'next/server'
 import Ean from 'ean-generator';

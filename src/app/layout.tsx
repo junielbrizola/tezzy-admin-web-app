@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import * as React from 'react';
@@ -9,7 +10,7 @@ import { AppBar } from '@/components/appBar';
 import { Avatar, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack, Toolbar, Typography } from '@mui/material';
 import { Main } from '@/components/main';
 import { DrawerHeader } from '@/components/drawerHeader';
-import { CategoryRounded, ChevronLeftRounded, MenuRounded, Person4Rounded } from '@mui/icons-material';
+import { CategoryRounded, ChevronLeftRounded, Groups3Rounded, MenuRounded, Person4Rounded, TuneRounded } from '@mui/icons-material';
 import { usePathname, useRouter } from 'next/navigation';
 import { SnackbarProvider } from 'notistack';
 
@@ -29,18 +30,26 @@ export default function RootLayout(props: { children: React.ReactNode }) {
   };
 
   interface IPage {
+    icon: any
     title: string
     pathname: string
   }
 
   const pages: IPage[] = [
     {
+      icon: <CategoryRounded />,
       title: "Produtos",
       pathname: '/products'
     },
     {
+      icon: <TuneRounded />,
       title: "Opções",
       pathname: '/options'
+    },
+    {
+      icon: <Groups3Rounded />,
+      title: "Assinantes",
+      pathname: '/subscribers'
     }
   ]
 
@@ -110,7 +119,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
                   <ListItem key={page.title} disablePadding>
                     <ListItemButton selected={pathname === page.pathname} onClick={() => router.push(page.pathname)}>
                       <ListItemIcon>
-                        <CategoryRounded />
+                        {page.icon}
                       </ListItemIcon>
                       <ListItemText primary={page.title} />
                     </ListItemButton>

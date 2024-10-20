@@ -4,7 +4,6 @@ import { http } from '@/utils/http';
 
 export const addProduct = async (
     type: string,
-    ean: string,
     color: string,
     model: string,
     custom: boolean,
@@ -15,7 +14,6 @@ export const addProduct = async (
     try {
         const response = await http.post(`/products`, {
             type,
-            ean,
             color,
             model,
             custom: Boolean(custom),
