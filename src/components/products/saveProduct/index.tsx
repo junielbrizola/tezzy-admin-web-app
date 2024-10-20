@@ -4,8 +4,15 @@ import { Modal } from './modal';
 
 
 interface IData {
-    id?: string 
-    name: string 
+    id?: string | undefined
+    type: any
+    ean: string
+    color: any
+    model: any
+    custom: boolean
+    price: number
+    material: any
+    medias: string[]
 }
 
 interface ISaveProduct {
