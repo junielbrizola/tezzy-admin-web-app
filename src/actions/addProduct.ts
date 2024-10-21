@@ -6,6 +6,7 @@ export const addProduct = async (
     type: string,
     color: string,
     model: string,
+    size: string,
     custom: boolean,
     price: number,
     material: string,
@@ -17,6 +18,7 @@ export const addProduct = async (
             color,
             model,
             custom: Boolean(custom),
+            size,
             price,
             material,
             medias

@@ -19,9 +19,9 @@ export async function POST(request: Request) {
   const body = await request.json()
   const ean = new Ean(['030', '031', '039'])
   try {
-    const { type, custom, color, price, model, material, medias } = body
+    const { type, custom, color, size, price, model, material, medias } = body
     const product = await prisma.product.create({
-      data: { type, custom, ean: ean.create(), color, price, model, material, medias },
+      data: { type, custom, size, ean: ean.create(), color, price, model, material, medias },
     })
     return NextResponse.json({ product })
   } catch (e: any) {

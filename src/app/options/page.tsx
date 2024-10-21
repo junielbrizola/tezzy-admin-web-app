@@ -10,8 +10,8 @@ import * as React from 'react'
 export default function Options() {
 
     return (
-        <Box height="100%" pb={3}>
-            <Stack gap={3} height="100%">
+        <Box height="100%" pb={3} mb={3}>
+            <Stack gap={3} height="100%" pb={3} mb={3}>
                 <OptionList 
                     load={async () => {
                         const { data } = await getOptions()
@@ -84,6 +84,32 @@ export default function Options() {
                     }}
                     inputLabel="Material"
                     listLabel="Materiais"
+                    optionRef={{
+                        inputLabel: "Tipo",
+                        load: async () => {
+                            const { data } = await getOptions()
+                            return data?.options?.filter((f: any) => f.type === "TYPE")
+                        }
+                    }}
+                />
+                <OptionList 
+                    load={async () => {
+                        const { data } = await getOptions()
+                        return data?.options?.filter((f: any) => f.type === "SIZE")?.map((m: any) => {
+                            if (m.optionRef) {
+                                m.optionRefName = data?.options?.find((f: any) => f.id === m.optionRef).name
+                            }
+                            return m
+                        })
+                    }}
+                    add={async (name: string, option: any) => {
+                        await addOption(name, "SIZE", option?.id as any)
+                    }}
+                    remove={async (id: string) => {
+                        await deleteOption(id)
+                    }}
+                    inputLabel="Tamanho"
+                    listLabel="Tamanhos"
                     optionRef={{
                         inputLabel: "Tipo",
                         load: async () => {

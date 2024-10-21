@@ -117,7 +117,13 @@ export default function RootLayout(props: { children: React.ReactNode }) {
               <List sx={{ pt: 0, pb: 0 }}>
                 {pages?.map((page) => (
                   <ListItem key={page.title} disablePadding>
-                    <ListItemButton selected={pathname === page.pathname} onClick={() => router.push(page.pathname)}>
+                    <ListItemButton 
+                      selected={pathname === page.pathname} 
+                      onClick={() => {
+                        router.push(page.pathname)
+                        handleDrawerClose()
+                      }}
+                    >
                       <ListItemIcon>
                         {page.icon}
                       </ListItemIcon>

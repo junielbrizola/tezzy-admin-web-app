@@ -27,6 +27,7 @@ interface IData {
     id?: string | undefined
     type: any
     color: any
+    size: any
     model: any
     custom: boolean
     price: number
@@ -84,6 +85,7 @@ const Modal: React.FC<IModal> = ({
                     formData.type?.name,
                     formData.color?.name,
                     formData.model?.name,
+                    formData.size?.name,
                     formData.custom,
                     parseCurrency(formData.price as any),
                     formData.material?.name,
@@ -227,6 +229,29 @@ const Modal: React.FC<IModal> = ({
                                         <TextField
                                             {...params}
                                             placeholder="Material"
+                                            variant="outlined"
+                                        />
+                                    )}
+                                />
+                            )}
+                        />
+                    </FormControl>
+
+                    <FormControl fullWidth>
+                        <FormLabel htmlFor="size">Tamanho</FormLabel>
+                        <Controller
+                            name="size"
+                            control={control}
+                            disabled={!watch('type')?.id}
+                            render={({ field }) => (
+                                <Autocomplete
+                                    {...field}
+                                    options={options?.filter(o => (o.type === 'SIZE' && o.optionRef === watch('type')?.id))?.map(m => ({ ...m, label: m.name}))}
+                                    onChange={(_, value) => field.onChange(value)}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            placeholder="Tamanho"
                                             variant="outlined"
                                         />
                                     )}
