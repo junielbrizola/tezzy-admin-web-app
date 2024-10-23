@@ -1,36 +1,30 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
-import { getProducts } from '@/actions/getProducts';
-import { DeleteProduct } from '@/components/products/deleteProduct';
-import { MediasProduct } from '@/components/products/mediasProduct';
-import { AddProduct } from '@/components/products/addProduct';
-import { formatCurrency } from '@brazilian-utils/brazilian-utils';
-import { DeleteRounded, Visibility } from '@mui/icons-material';
+import { getUsers } from '@/actions/getUsers';
+import { DeleteUser } from '@/components/users/deleteUser';
+import { SaveUser } from '@/components/users/saveUser';
+import { DeleteRounded, EditRounded } from '@mui/icons-material';
 import { Button, IconButton, Stack } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { enqueueSnackbar } from 'notistack';
 import * as React from 'react';
 
-interface IProduct {
+interface IUser {
   id: string
-  type: string
-  ean: string
-  color: string
-  model: string
-  custom: boolean
-  price: number
-  material: string
-  medias: string[]
+  name: string
+  email: string
+  password: string
+  type: string  
 }
 
-export default function Products() {
-  const [products, setProducts] = React.useState<IProduct[]>([]);
+export default function Users() {
+  const [users, setUsers] = React.useState<IUser[]>([]);
   const [isPending, startTransition] = React.useTransition();
 
-  const loadProducts = React.useCallback(async () => {
+  const loadUsers = React.useCallback(async () => {
     startTransition(async () => {
       try {
-        const { data: response, errors } = await getProducts();
+        const { data: response, errors } = await getUsers();
         if (errors) {
           if (Array.isArray(errors)) {
             errors.forEach((message: string) => {
@@ -42,7 +36,7 @@ export default function Products() {
           return
         }
         if (response) {
-          setProducts(response?.products);
+          setUsers(response?.users);
         }
       } catch (e: any) {
         console.log({ e });
@@ -51,7 +45,7 @@ export default function Products() {
   }, []);
 
   React.useEffect(() => {
-    loadProducts();
+    loadUsers();
   }, []);
   return (
     <Stack gap={3} flex={1}>
@@ -59,8 +53,8 @@ export default function Products() {
         justifyContent="flex-start"
         alignItems="flex-start"
       >
-        <AddProduct
-          onCallback={async () =>  loadProducts()}
+        <SaveUser
+          onCallback={async () =>  loadUsers()}
           component={({ onClick }) => (
             <Button
               onClick={onClick}
@@ -74,72 +68,52 @@ export default function Products() {
       <DataGrid
         loading={isPending}
         autoPageSize
-        rows={products}
+        rows={users}
         columns={[
+          {
+            field: 'name',
+            headerName: 'Nome',
+            flex: 1,
+          },
+          {
+            field: 'email',
+            headerName: 'E-mail',
+            flex: 1,
+          },
           {
             field: 'type',
             headerName: 'Tipo',
             width: 150,
           },
           {
-            field: 'color',
-            headerName: 'Cor',
-            width: 150,
-          },
-          {
-            field: 'model',
-            headerName: 'Modelo',
-            minWidth: 150,
-            flex: 1
-          },
-          {
-            field: 'ean',
-            headerName: 'EAN',
-            width: 150,
-          },
-          {
-            field: 'custom',
-            headerName: 'Custumizado',
-            width: 150,
-            valueFormatter: (value) => value ? 'Sim' : 'Não'
-          },
-          {
-            field: 'price',
-            headerName: 'Preço',
-            width: 150,
-            valueFormatter: (value) => `R$ ${formatCurrency(value || 0)}`
-          },
-          {
-            field: 'material',
-            headerName: 'Material',
-            minWidth: 150,
-            flex: 1
-          },
-          {
             field: 'action',
             headerName: '',
-            width: 160,
+            width: 130,
             sortable: false,
             disableColumnMenu: true,
             renderCell: ({ row }: any)=> {
               return (
                 <Stack flexDirection="row" alignItems="center" gap={1} justifyContent="center" height="100%">
-                  <MediasProduct
+                  <SaveUser
                     data={{
-                      medias: row.medias
+                      id: row.id,
+                      name: row.name,
+                      email: row.email,
+                      password: row.password,
+                      type: row.type,
                     }}
-                    onCallback={async () => loadProducts()}
+                    onCallback={async () =>  loadUsers()}
                     component={({ onClick }) => (
                       <IconButton
                         onClick={onClick}
                       >
-                        <Visibility color="success" />
+                        <EditRounded color="primary"/>
                       </IconButton>
                     )}
                   />
-                  <DeleteProduct
+                  <DeleteUser
                     id={row?.id}
-                    onCallback={async () => loadProducts()}
+                    onCallback={async () => loadUsers()}
                     component={({ onClick }) => (
                       <IconButton
                         onClick={onClick}

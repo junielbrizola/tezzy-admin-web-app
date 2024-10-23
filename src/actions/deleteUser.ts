@@ -2,9 +2,11 @@
 "use server";
 import { http } from '@/utils/http';
 
-export const getSubscribers = async () => {
+export const deleteUser = async (
+    id: string
+) => {
     try {
-        const response = await http.get(`/subscribers`)
+        const response = await http.delete(`/users/${id}`)
         return { data: response?.data }
     } catch (e: any) {
         console.log({ e })

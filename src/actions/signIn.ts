@@ -2,11 +2,15 @@
 "use server";
 import { http } from '@/utils/http';
 
-export const deleteSubscriber = async (
-    id: string,
+export const signIn = async (
+    email: string,
+    password: string
 ) => {
     try {
-        const response = await http.delete(`/subscribers/${id}`)
+        const response = await http.post(`/sign-in/admin`, {
+            email,
+            password
+        })
         return { data: response?.data }
     } catch (e: any) {
         console.log({ e })

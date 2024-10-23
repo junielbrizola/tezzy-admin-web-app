@@ -7,6 +7,21 @@ generator client {
   provider = "prisma-client-js"
 }
 
+enum ETypeUser {
+  ADMIN
+  CLIENT
+}
+
+model User {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String    @unique
+  password  String
+  type      ETypeUser @default(CLIENT)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
 model Product {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   type      String
@@ -28,13 +43,6 @@ model Option {
   name      String
   type      String
   optionRef String?  @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Subscriber {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  email     String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

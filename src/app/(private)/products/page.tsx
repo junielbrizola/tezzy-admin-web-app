@@ -1,28 +1,37 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
-import { getSubscribers } from '@/actions/getSubscribers';
-import { DeleteSubscriber } from '@/components/subscribers/deleteSubscriber';
-import { AddSubscriber } from '@/components/subscribers/addSubscriber';
+import { getProducts } from '@/actions/getProducts';
+import { DeleteProduct } from '@/components/products/deleteProduct';
+import { MediasProduct } from '@/components/products/mediasProduct';
+import { AddProduct } from '@/components/products/addProduct';
 import { formatCurrency } from '@brazilian-utils/brazilian-utils';
-import { DeleteRounded } from '@mui/icons-material';
+import { DeleteRounded, Visibility } from '@mui/icons-material';
 import { Button, IconButton, Stack } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { enqueueSnackbar } from 'notistack';
 import * as React from 'react';
+import { AdjustProductQuantity } from '@/components/products/adjustProductQuantity';
 
-interface ISubscriber {
-  id: string    
-  email: string
+interface IProduct {
+  id: string
+  type: string
+  ean: string
+  color: string
+  model: string
+  custom: boolean
+  price: number
+  material: string
+  medias: string[]
 }
 
-export default function Subscribers() {
-  const [subscribers, setSubscribers] = React.useState<ISubscriber[]>([]);
+export default function Products() {
+  const [products, setProducts] = React.useState<IProduct[]>([]);
   const [isPending, startTransition] = React.useTransition();
 
-  const loadSubscribers = React.useCallback(async () => {
+  const loadProducts = React.useCallback(async () => {
     startTransition(async () => {
       try {
-        const { data: response, errors } = await getSubscribers();
+        const { data: response, errors } = await getProducts();
         if (errors) {
           if (Array.isArray(errors)) {
             errors.forEach((message: string) => {
@@ -34,7 +43,7 @@ export default function Subscribers() {
           return
         }
         if (response) {
-          setSubscribers(response?.subscribers);
+          setProducts(response?.products);
         }
       } catch (e: any) {
         console.log({ e });
@@ -43,7 +52,7 @@ export default function Subscribers() {
   }, []);
 
   React.useEffect(() => {
-    loadSubscribers();
+    loadProducts();
   }, []);
   return (
     <Stack gap={3} flex={1}>
@@ -51,8 +60,8 @@ export default function Subscribers() {
         justifyContent="flex-start"
         alignItems="flex-start"
       >
-        <AddSubscriber
-          onCallback={async () =>  loadSubscribers()}
+        <AddProduct
+          onCallback={async () =>  loadProducts()}
           component={({ onClick }) => (
             <Button
               onClick={onClick}
@@ -66,12 +75,12 @@ export default function Subscribers() {
       <DataGrid
         loading={isPending}
         autoPageSize
-        rows={subscribers}
+        rows={products}
         columns={[
           {
             field: 'type',
             headerName: 'Tipo',
-            width: 150,
+            width: 165,
           },
           {
             field: 'color',
@@ -102,23 +111,60 @@ export default function Subscribers() {
             valueFormatter: (value) => `R$ ${formatCurrency(value || 0)}`
           },
           {
+            field: 'size',
+            headerName: 'Tamanho',
+            width: 150,
+          },
+          {
             field: 'material',
             headerName: 'Material',
             minWidth: 150,
             flex: 1
           },
           {
+            field: 'qtd',
+            headerName: 'Quantidade',
+            minWidth: 160,
+            renderCell: ({ row }: any) => {
+              return (
+                <Stack
+                  justifyContent="center"
+                  alignItems="center"
+                  height="100%"
+                >
+                  <AdjustProductQuantity  
+                    id={row.id}
+                    qtd={row.qtd}
+                  />
+                </Stack>
+              )
+            }
+          },
+          {
             field: 'action',
             headerName: '',
-            width: 160,
+            width: 130,
             sortable: false,
             disableColumnMenu: true,
             renderCell: ({ row }: any)=> {
               return (
                 <Stack flexDirection="row" alignItems="center" gap={1} justifyContent="center" height="100%">
-                  <DeleteSubscriber
+                  <MediasProduct
+                    data={{
+                      medias: row.medias
+                    }}
+                    onCallback={async () => loadProducts()}
+                    component={({ onClick }) => (
+                      <IconButton
+                        onClick={onClick}
+                      >
+                        <Visibility color="success" />
+                      </IconButton>
+                    )}
+                  />
+                  <DeleteProduct
                     id={row?.id}
-                    onCallback={async () => loadSubscribers()}
+                    onCallback={async () => loadProducts()}
                     component={({ onClick }) => (
                       <IconButton
                         onClick={onClick}

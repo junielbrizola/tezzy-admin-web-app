@@ -2,12 +2,10 @@
 "use server";
 import { http } from '@/utils/http';
 
-export const addSubscriber = async (
-    email: string,
-) => {
+export const adjustProductQuantity = async (id: string, qtd: number) => {
     try {
-        const response = await http.post(`/subscribers`, {
-            email,
+        const response = await http.put(`/products/${id}`, {
+            qtd: Number(qtd)
         })
         return { data: response?.data }
     } catch (e: any) {

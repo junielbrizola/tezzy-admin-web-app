@@ -2,13 +2,13 @@
 import * as React from 'react';
 import { Modal } from './modal';
 
-interface IDeleteSubscriber {
+interface IDeleteUser {
     id: string
     component: ({ onClick }: { onClick: any }) => React.ReactNode,
     onCallback: any
 }
 
-const DeleteSubscriber: React.FC<IDeleteSubscriber> = ({ onCallback, component, id }) => {
+const DeleteUser: React.FC<IDeleteUser> = ({ onCallback, component, id }) => {
     const [open, setOpen] = React.useState(false);
    
     const handleClickOpen = () => {
@@ -33,4 +33,4 @@ const DeleteSubscriber: React.FC<IDeleteSubscriber> = ({ onCallback, component, 
     );
 }
 
-export { DeleteSubscriber };
+export { DeleteUser };

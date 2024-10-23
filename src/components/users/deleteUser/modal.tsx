@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import { LoadingButton } from '@mui/lab';
-import { deleteSubscriber } from '@/actions/deleteSubscriber';
+import { deleteUser } from '@/actions/deleteUser';
 import { enqueueSnackbar } from 'notistack';
 import * as React from 'react'
 
@@ -39,7 +39,7 @@ const Modal: React.FC<IModal> = ({
     const onSubmit = async () => {
         startTransition(async () => {
             try {
-                const { data: response, errors } = await deleteSubscriber(
+                const { data: response, errors } = await deleteUser(
                   id
                 );
                 if (errors) {
@@ -67,20 +67,20 @@ const Modal: React.FC<IModal> = ({
             TransitionComponent={Transition}
             open={true}
             onClose={handleClose}
-            aria-labelledby="delete-Subscriber-title"
-            aria-describedby="delete-Subscriber-description"
+            aria-labelledby="delete-User-title"
+            aria-describedby="delete-User-description"
             PaperProps={{
                 sx: {
                     width: '100%',
                 },
             }}
         >
-            <DialogTitle id="delete-Subscriber-title">
-                Assinatura
+            <DialogTitle id="delete-User-title">
+                Usuário
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    Tem certeza que deseja deletar essa assinatura?
+                    Tem certeza que deseja deletar esse usuário?
                 </DialogContentText>
             </DialogContent>
             <DialogActions>

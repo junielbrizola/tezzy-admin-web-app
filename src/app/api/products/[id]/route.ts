@@ -24,11 +24,10 @@ export async function GET(request: Request, { params }: { params: { id: string }
 export async function PUT(request: Request, { params }: { params: { id: string } }) {
   const { id } = params
   const body = await request.json()
-  const { type, custom, color, price, model, material, medias } = body
   try {
     const updatedProduct = await prisma.product.update({
       where: { id },
-      data: { type, custom, color, price, model, material, medias },
+      data: body,
     })
     return NextResponse.json({ product: updatedProduct })
   } catch (e: any) {

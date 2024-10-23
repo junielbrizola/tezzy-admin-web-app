@@ -2,12 +2,21 @@
 import * as React from 'react';
 import { Modal } from './modal';
 
-interface IAddSubscriber {
+interface IData {
+    id?: string | undefined
+    name: any
+    email: any
+    password: any
+    type: any  
+}
+
+interface ISaveUser {
+    data?: IData,
     component: ({ onClick }: { onClick: any }) => React.ReactNode,
     onCallback: any
 }
 
-const AddSubscriber: React.FC<IAddSubscriber> = ({ onCallback, component }) => {
+const SaveUser: React.FC<ISaveUser> = ({ onCallback, component, data }) => {
     const [open, setOpen] = React.useState(false);
    
     const handleClickOpen = () => {
@@ -23,6 +32,7 @@ const AddSubscriber: React.FC<IAddSubscriber> = ({ onCallback, component }) => {
             {component({ onClick: handleClickOpen })}
             {open && (
                 <Modal
+                    data={data}
                     onCallback={onCallback}
                     handleClose={handleClose}
                 />    
@@ -31,4 +41,4 @@ const AddSubscriber: React.FC<IAddSubscriber> = ({ onCallback, component }) => {
     );
 }
 
-export { AddSubscriber };
+export { SaveUser };
