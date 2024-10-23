@@ -3,10 +3,10 @@
 
 import * as React from 'react';
 import { AppBar } from '@/components/appBar';
-import { Avatar, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack, Toolbar, Typography } from '@mui/material';
+import { Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack, Toolbar, Typography } from '@mui/material';
 import { Main } from '@/components/main';
 import { DrawerHeader } from '@/components/drawerHeader';
-import { CategoryRounded, ChevronLeftRounded, Groups3Rounded, LogoutRounded, MenuRounded, Person4Rounded, TuneRounded } from '@mui/icons-material';
+import { CategoryRounded, ChevronLeftRounded, Groups3Rounded, LogoutRounded, MenuRounded, TuneRounded } from '@mui/icons-material';
 import { redirect, usePathname, useRouter } from 'next/navigation';
 import Cookies from 'js-cookie'
 
